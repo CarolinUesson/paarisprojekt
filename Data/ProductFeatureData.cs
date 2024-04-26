@@ -1,7 +1,5 @@
-﻿namespace Data
+﻿namespace Data;
+public class ProductFeatureData : EntityData
 {
-    public class ProductFeatureData : EntityData
-    {
-        public string Description { get; set; }
-    }
+    public string? Description { get; set; }
 }
