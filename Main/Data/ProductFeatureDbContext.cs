@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
+using Data;
 
-    public class ProductFeatureDbContext : DbContext
+public class ProductFeatureDbContext : DbContext
     {
         public ProductFeatureDbContext (DbContextOptions<ProductFeatureDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<ProductFeature> ProductFeature { get; set; } = default!;
+        public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
     }

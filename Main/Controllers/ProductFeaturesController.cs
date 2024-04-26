@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Main.Models;
+using Data;
 
 namespace Main.Controllers
 {
@@ -53,7 +54,7 @@ namespace Main.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description")] ProductFeature productFeature)
+        public async Task<IActionResult> Create([Bind("Id,Description")] ProductFeatureData productFeature)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace Main.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] ProductFeature productFeature)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] ProductFeatureData productFeature)
         {
             if (id != productFeature.Id)
             {
