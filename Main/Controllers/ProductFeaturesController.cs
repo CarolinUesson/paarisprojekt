@@ -15,7 +15,7 @@ namespace Main.Controllers
             if (productFeature == null) return NotFound();
             return View(productFeature);
         }
-        public IActionResult Create() => View();
+        public IActionResult Create() => View(); 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description")] ProductFeatureData productFeature)
