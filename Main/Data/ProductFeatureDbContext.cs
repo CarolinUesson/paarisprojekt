@@ -14,4 +14,6 @@ public class ProductFeatureDbContext : DbContext
         }
 
         public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
-    }
+    public DbSet<ProductData> Product { get; set; } = default!;
+
+}
