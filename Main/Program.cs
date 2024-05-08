@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ProductFeatureDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'ProductFeatureDbContext' not found.")));
