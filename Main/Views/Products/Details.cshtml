@@ -2,19 +2,9 @@
 @using Pages
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Product";
+    ViewData["ItemId"] = Model.Id;
+    Layout = "_Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        @Html.ShowItem(model => model.Name)
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<partial name="_ShowProduct" />
