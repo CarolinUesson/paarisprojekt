@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Aids;
+namespace Aids.Methods;
 public class GetRnd
 {
     private static readonly Random r = new();
@@ -22,7 +22,7 @@ public class GetRnd
             max = x;
         }
         var d = r.NextDouble();
-        return max > 0 ? min + (d * max) - (d * min) : min - (d * min) + (d * max);
+        return max > 0 ? min + d * max - d * min : min - d * min + d * max;
     }
     public static string String(byte minLength = 10, byte maxLength = 20)
     {
@@ -36,7 +36,7 @@ public class GetRnd
     public static short Int16(short min = short.MinValue, short max = short.MaxValue) => (short)Int32(min, max);
     public static ushort UInt16(ushort min = ushort.MinValue, ushort max = ushort.MaxValue) => (ushort)Int32(min, max);
     public static int Int32(int min = int.MinValue, int max = int.MaxValue) => min == max ? min : max < min ? r.Next(max, min) : r.Next(min, max);
-    public static uint UInt32(uint min = uint.MinValue, uint max = uint.MaxValue) => (uint)UInt32(min, max);
+    public static uint UInt32(uint min = uint.MinValue, uint max = uint.MaxValue) => (uint)Double(min, max);
     public static long Int64(long min = long.MinValue, long max = long.MaxValue) => (long)Double(min, max);
     public static ulong UInt64(ulong min = ulong.MinValue, ulong max = ulong.MaxValue) => (ulong)Double(min, max);
 }
