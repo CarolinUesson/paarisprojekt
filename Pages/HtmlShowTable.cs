@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Encodings.Web;
+using Data;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,9 +8,9 @@ namespace Pages;
 
 public static class HtmlShowTable
 {
-    public static IHtmlContent ShowTable<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, IEnumerable<TModel> items)
+    public static IHtmlContent ShowTable<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        IEnumerable<TModel> items) where TModel : EntityData
     {
-        //var label = h.DisplayNameFor(items);
         var table = new TagBuilder("table");
         table.AddCssClass("table");
 
@@ -27,7 +28,8 @@ public static class HtmlShowTable
         return new HtmlString(writer.ToString());
     }
 
-    private static TagBuilder createBody<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, PropertyInfo[] properties, IEnumerable<TModel> items)
+    private static TagBuilder createBody<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        PropertyInfo[] properties, IEnumerable<TModel> items) where TModel : EntityData
     {
         var tbody = new TagBuilder("body");
         foreach (var i in items)
@@ -42,7 +44,7 @@ public static class HtmlShowTable
                 td.InnerHtml.AppendHtml(value);
                 tr.InnerHtml.AppendHtml(td);
             }
-            var id = i?.GetType()?.GetProperty("Id")?.GetValue(i)?.ToString()?? string.Empty;
+            var id = i?.Id.ToString()?? string.Empty;
             td = new TagBuilder("td");
             h.addLink("Edit", id, td);
             h.addLink("Details", id, td);
@@ -78,29 +80,4 @@ public static class HtmlShowTable
     }
 
     private static PropertyInfo[] getProperties(Type t) => t?.GetProperties()?.Where(x => x.Name != "Id")?.ToArray() ?? [];
-    //    <table class="table">
-    //    <thead>
-    //        <tr>
-    //            <th>
-    //                @Html.DisplayNameFor(model => model.Name)
-    //            </th>
-    //            <th></th>
-    //        </tr>
-    //    </thead>
-    //    <tbody>
-    //@foreach(var item in Model)
-    //    {
-    //        < tr >
-    //            < td >
-    //        @Html.DisplayFor(modelItem => item.Name)
-    //            </ td >
-    //            < td >
-    //                < a asp - action = "Edit" asp - route - id = "@item.Id" > Edit </ a > |
-    //                < a asp - action = "Details" asp - route - id = "@item.Id" > Details </ a > |
-    //                < a asp - action = "Delete" asp - route - id = "@item.Id" > Delete </ a >
-    //            </ td >
-    //        </ tr >
-    //}
-    //    </tbody>
-    //</table>
 }
