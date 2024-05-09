@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Aids;
 public class GetRnd
 {
     private static readonly Random r = new();
+    public static bool Bool() => Int32() % 2 == 0;
     public static char Char(char min = char.MinValue, char max = char.MaxValue) => (char)UInt16(min, max);
+    public static DateTime DateTime(DateTime? min = null, DateTime? max = null)
+    {
+        var minValue = (min ?? System.DateTime.Today.AddYears(5)).Ticks;
+        var maxValue = (max ?? System.DateTime.Today.AddYears(-5)).Ticks;
+        var ticks = Int64(minValue, maxValue);
+        return new DateTime(ticks);
+    }
     public static double Double(double min = short.MinValue, double max = short.MaxValue)
     {
         if (min > max)
@@ -33,4 +37,6 @@ public class GetRnd
     public static ushort UInt16(ushort min = ushort.MinValue, ushort max = ushort.MaxValue) => (ushort)Int32(min, max);
     public static int Int32(int min = int.MinValue, int max = int.MaxValue) => min == max ? min : max < min ? r.Next(max, min) : r.Next(min, max);
     public static uint UInt32(uint min = uint.MinValue, uint max = uint.MaxValue) => (uint)UInt32(min, max);
+    public static long Int64(long min = long.MinValue, long max = long.MaxValue) => (long)Double(min, max);
+    public static ulong UInt64(ulong min = ulong.MinValue, ulong max = ulong.MaxValue) => (ulong)Double(min, max);
 }
