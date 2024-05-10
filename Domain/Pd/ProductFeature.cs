@@ -1,6 +1,6 @@
-﻿using Data;
+﻿using Data.Pd;
 
-namespace Domain
+namespace Domain.Pd
 {
     public sealed class ProductFeature(ProductFeatureData d) : Entity<ProductFeatureData>(d)
     {

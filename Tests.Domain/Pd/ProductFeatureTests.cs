@@ -1,4 +1,4 @@
-﻿namespace Tests.Domain;
+﻿namespace Tests.Domain.Pd;
 [TestClass]
 public class ProductFeatureTests
 {
