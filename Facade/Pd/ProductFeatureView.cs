@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facade.Pd
 {
-    internal class ProductFeatureView : EntityView
+    public sealed class ProductFeatureView : EntityView
     {
-        [Required] public string Description { get; set; }
+        //[Required] public string Description { get; set; }
+        [DisplayName("Description")][Required] public string? Description { get; set; }
     }
 }
