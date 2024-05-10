@@ -39,4 +39,33 @@ public class GetRnd
     public static uint UInt32(uint min = uint.MinValue, uint max = uint.MaxValue) => (uint)Double(min, max);
     public static long Int64(long min = long.MinValue, long max = long.MaxValue) => (long)Double(min, max);
     public static ulong UInt64(ulong min = ulong.MinValue, ulong max = ulong.MaxValue) => (ulong)Double(min, max);
+    public static dynamic? Any(Type? t)
+    {
+        if (t == typeof(bool)) return Bool();
+        if (t == typeof(bool?)) return Bool();
+        if (t == typeof(char)) return Char();
+        if (t == typeof(char?)) return Char();
+        if (t == typeof(DateTime)) return DateTime();
+        if (t == typeof(DateTime?)) return DateTime();
+        if (t == typeof(double)) return Double();
+        if (t == typeof(double?)) return Double();
+        if (t == typeof(string)) return String();
+        if (t == typeof(sbyte)) return Int8();
+        if (t == typeof(sbyte?)) return Int8();
+        if (t == typeof(byte)) return UInt8();
+        if (t == typeof(byte?)) return UInt8();
+        if (t == typeof(short)) return Int16();
+        if (t == typeof(short?)) return Int16();
+        if (t == typeof(ushort)) return UInt16();
+        if (t == typeof(ushort?)) return UInt16();
+        if (t == typeof(int)) return Int32();
+        if (t == typeof(int?)) return Int32();
+        if (t == typeof(uint)) return UInt32();
+        if (t == typeof(uint?)) return UInt32();
+        if (t == typeof(long)) return Int64();
+        if (t == typeof(long?)) return Int64();
+        if (t == typeof(ulong)) return UInt64();
+        if (t == typeof(ulong?)) return UInt64();
+        else return null;
+    }
 }
