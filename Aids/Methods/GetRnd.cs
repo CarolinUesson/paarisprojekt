@@ -68,4 +68,15 @@ public class GetRnd
         if (t == typeof(ulong?)) return UInt64();
         else return null;
     }
+    public static TObject Object<TObject>() where TObject : class, new()
+    {
+        var o = new TObject();
+        foreach(var p in o.GetType().GetProperties())
+        {
+            if(!p.CanWrite) continue;
+            var v = Any(p.PropertyType);
+            p.SetValue(o, v, null);
+        }
+        return o;
+    }
 }

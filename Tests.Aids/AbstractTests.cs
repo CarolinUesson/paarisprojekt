@@ -13,12 +13,12 @@ namespace Tests.Aids;
 public abstract class AbstractTests<TClass, TBaseClass> : BaseTests
 {
     protected TClass? obj;
-    /*[TestInitialize] public override void TestInitialize()
+    [TestInitialize] public override void TestInitialize()
     {
         base.TestInitialize();
         obj = createObject();
-    }*/
-    //protected abstract TClass? createObject();
+    }
+    protected abstract TClass? createObject();
     protected override Type? type => typeof(TClass);
     protected virtual Type baseType => typeof(TBaseClass);
     [TestMethod] public void isCorrectBaseClass() => Assert.AreEqual(type?.BaseType?.Name, baseType.Name);
