@@ -1,6 +1,6 @@
 ﻿using Aids.Methods;
 
-namespace Tests.Aids.Methods;
+namespace Tests.Aids;
 public abstract class BaseTests
 {
     protected abstract Type? type { get; }
