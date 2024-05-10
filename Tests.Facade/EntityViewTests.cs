@@ -4,7 +4,7 @@ using Tests.Aids;
 namespace Tests.Facade;
 [TestClass] public class EntityViewTests : AbstractTests<EntityView, object>
 {
-    private class test : EntityView { }
-    protected override EntityView? createObject() => new test();
+    private class entity : EntityView { }
+    protected override EntityView? createObject() => new entity();
     [TestMethod] public void IdTest() => propertyTest();
 }
