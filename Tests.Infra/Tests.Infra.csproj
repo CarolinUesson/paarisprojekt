@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infra\Infra.csproj" />
+    <ProjectReference Include="..\Tests.Aids\Tests.Aids.csproj" />
   </ItemGroup>
 
   <ItemGroup>
