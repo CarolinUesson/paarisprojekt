@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Main.Controllers;
-public class BaseController<TModel>(ProductFeatureDbContext c, DbSet<TModel> s, IPagedRepo<TModel> r) : 
+public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<TModel> r) : 
     Controller where TModel : EntityData, new()
 {
-    protected readonly ProductFeatureDbContext context = c;
+    protected readonly AppDbContext context = c;
     protected readonly DbSet<TModel> dbSet = s;
     protected readonly IPagedRepo<TModel> repo = r;
 

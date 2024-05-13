@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Main.Migrations
 {
-    [DbContext(typeof(ProductFeatureDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20240508090329_productsMigration")]
     partial class productsMigration
     {

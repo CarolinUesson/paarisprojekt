@@ -3,7 +3,7 @@ using Domain.Repos;
 using Infra.Common;
 
 namespace Main.Data;
-public class ProductsRepo(ProductFeatureDbContext c) :
+public class ProductsRepo(AppDbContext c) :
     Repo<ProductData>(c, c.Product), IProductsRepo
 {
 }

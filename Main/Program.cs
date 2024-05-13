@@ -7,7 +7,7 @@ using System.Configuration;
 
 var b = WebApplication.CreateBuilder(args);
 
-b.Services.AddDbContext<ProductFeatureDbContext>(o =>
+b.Services.AddDbContext<AppDbContext>(o =>
     o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'ProductFeatureDbContext' not found.")));
 
 // Add services to the container.
