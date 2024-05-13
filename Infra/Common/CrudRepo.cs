@@ -1,8 +1,15 @@
-﻿using Domain.Common;
+﻿using Data;
+using Domain.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Common;
-public abstract class CrudRepo<TEntity> : BaseRepo, ICrudRepo<TEntity> where TEntity : class, new()
+public abstract class CrudRepo<TEntity>(DbContext c, DbSet<TEntity> s) : 
+    BaseRepo, ICrudRepo<TEntity> where TEntity : EntityData, new()
 {
+    internal readonly DbContext db = c;
+    internal readonly DbSet<TEntity> set = s;
+    internal TEntity? item;
+    internal readonly List<TEntity> list = [];
     public bool Add(TEntity obj)
     {
         throw new NotImplementedException();
@@ -18,10 +25,7 @@ public abstract class CrudRepo<TEntity> : BaseRepo, ICrudRepo<TEntity> where TEn
         throw new NotImplementedException();
     }
 
-    public TEntity Get(int? id)
-    {
-        throw new NotImplementedException();
-    }
+    public TEntity Get(int? id) => set.FirstOrDefault(m => m.Id == id) ?? new();
 
     public bool Update(TEntity obj)
     {
