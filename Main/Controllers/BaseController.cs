@@ -11,20 +11,32 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     protected readonly DbSet<TModel> dbSet = s;
     protected readonly IPagedRepo<TModel> repo = r;
 
-    public async Task<IActionResult> Index() => View(await dbSet.ToListAsync());
+    public async Task<IActionResult> Index(int? pageNr) 
+    {
+        repo.PageNumber = pageNr;
+        ViewBag.HasNextPage = repo.HasNextPage;
+        ViewBag.HasPreviousPage = repo.HasPreviousPage;
+        ViewBag.PageNumber = repo.PageNrAsInt;
+        return View(await repo.GetAsync());
+    }
     public async Task<IActionResult> Details(int? id)
     {
         var model = await repo.GetAsync(id);
         return model == null ? NotFound() : View(model);
     }
     public IActionResult Create() => View();
-
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(TModel model) 
+         => !ModelState.IsValid 
+            ? View(model) 
+            : await repo.AddAsync(model) 
+            ? RedirectToAction(nameof(Index)) 
+            : View(model);
     public async Task<IActionResult> Edit(int? id)
     {
-        if (id == null) return NotFound();
-        var model = await dbSet.FindAsync(id);
-        if (model == null) return NotFound();
-        return View(model);
+        var model = await repo.GetAsync(id);
+        return model == null ? NotFound() : View(model);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -49,10 +61,8 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     }
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null) return NotFound();
-        var model = await dbSet.FirstOrDefaultAsync(m => m.Id == id);
-        if (model == null) return NotFound();
-        return View(model);
+        var model = await repo.GetAsync(id);
+        return model == null ? NotFound() : View(model);
     }
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
@@ -64,17 +74,4 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
         return RedirectToAction(nameof(Index));
     }
     private bool ProductFeatureExists(int id) => dbSet.Any(e => e.Id == id);
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(TModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            context.Add(model);
-            await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        return View(model);
-    }
-    
 }

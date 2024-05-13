@@ -1,10 +1,9 @@
 ﻿namespace Domain.Common;
 public interface ICrudRepo<TEntity> where TEntity : class, new()
 {
-    IEnumerable<TEntity> Get();
-    TEntity? Get(int? id);
+    Task<IEnumerable<TEntity>> GetAsync();
     Task<TEntity?> GetAsync(int? id);
-    bool Update(TEntity obj);
-    bool Add(TEntity obj);
-    bool Delete(int id);
+    Task<bool> UpdateAsync(TEntity obj);
+    Task<bool> AddAsync(TEntity obj);
+    Task<bool> DeleteAsync(int id);
 }
