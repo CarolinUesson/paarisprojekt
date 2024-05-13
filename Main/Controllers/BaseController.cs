@@ -1,17 +1,14 @@
 ﻿using Data;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Main.Controllers;
-public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<TModel> r) : 
+public class BaseController<TModel>(IPagedRepo<TModel> r) :
     Controller where TModel : EntityData, new()
 {
-    protected readonly AppDbContext context = c;
-    protected readonly DbSet<TModel> dbSet = s;
     protected readonly IPagedRepo<TModel> repo = r;
 
-    public async Task<IActionResult> Index(string searchString, int? pageNr) 
+    public async Task<IActionResult> Index(string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
         repo.SearchString = searchString;
@@ -29,11 +26,11 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     public IActionResult Create() => View();
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(TModel model) 
-         => !ModelState.IsValid 
-            ? View(model) 
-            : await repo.AddAsync(model) 
-            ? RedirectToAction(nameof(Index)) 
+    public async Task<IActionResult> Create(TModel model)
+         => !ModelState.IsValid
+            ? View(model)
+            : await repo.AddAsync(model)
+            ? RedirectToAction(nameof(Index))
             : View(model);
     public async Task<IActionResult> Edit(int? id)
     {
@@ -42,25 +39,12 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, TModel model)
-    {
-        if (id != model.Id) return NotFound();
-        if (ModelState.IsValid)
-        {
-            try
-            {
-                context.Update(model);
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductFeatureExists(model.Id)) return NotFound();
-                else throw;
-            }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(model);
-    }
+    public async Task<IActionResult> Edit(TModel model) =>
+        !ModelState.IsValid 
+        ? View(model) 
+        : await repo.UpdateAsync(model) 
+        ? RedirectToAction(nameof(Index)) 
+        : View(model);
     public async Task<IActionResult> Delete(int? id)
     {
         var model = await repo.GetAsync(id);
@@ -68,12 +52,9 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     }
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        var model = await dbSet.FindAsync(id);
-        if (model != null) dbSet.Remove(model);
-        await context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-    private bool ProductFeatureExists(int id) => dbSet.Any(e => e.Id == id);
+    public async Task<IActionResult> DeleteConfirmed(int id) => 
+        await repo.DeleteAsync(id) 
+        ? RedirectToAction(nameof(Index)) 
+        : RedirectToAction(nameof(Delete), id);
+    
 }

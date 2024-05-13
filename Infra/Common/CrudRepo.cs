@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Infra.Common;
 public abstract class CrudRepo<TEntity>(DbContext c, DbSet<TEntity> s) : 
@@ -28,8 +29,18 @@ public abstract class CrudRepo<TEntity>(DbContext c, DbSet<TEntity> s) :
     }
     public async Task<bool> DeleteAsync(int id)
     {
-        await Task.CompletedTask;
-        throw new NotImplementedException();
+        try
+        {
+            var model = await GetAsync(id);
+            if (model != null) set.Remove(model);
+            await db.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            db.ChangeTracker.Clear();
+            return false;
+        }
     }
 
     public async Task<IEnumerable<TEntity>> GetAsync() => await createSQL().AsNoTracking().ToListAsync(); 
@@ -38,9 +49,19 @@ public abstract class CrudRepo<TEntity>(DbContext c, DbSet<TEntity> s) :
 
     public async Task<bool> UpdateAsync(TEntity obj)
     {
-        await Task.CompletedTask;
-        throw new NotImplementedException();
+        if (obj is null) return false;
+        if (!isInDbSet(obj.Id)) return false;
+        try
+        {
+            set.Update(obj);
+            await db.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            db.ChangeTracker.Clear();
+            return false;
+        }
     }
-
-    
+    private bool isInDbSet(int id) => set.Any(e => e.Id == id);
 }
