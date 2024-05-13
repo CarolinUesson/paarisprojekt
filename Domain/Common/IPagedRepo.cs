@@ -1,4 +1,5 @@
-﻿namespace Domain.Common;
+﻿
+namespace Domain.Common;
 public interface IPagedRepo<TEntity> : 
     IOrderedRepo<TEntity> where TEntity : class, new()
 {

@@ -1,20 +1,21 @@
 ﻿using Data;
+using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Main.Controllers;
-public class BaseController<TModel>(ProductFeatureDbContext c, DbSet<TModel> s) : Controller where TModel : EntityData
+public class BaseController<TModel>(ProductFeatureDbContext c, DbSet<TModel> s, IPagedRepo<TModel> r) : 
+    Controller where TModel : EntityData, new()
 {
     protected readonly ProductFeatureDbContext context = c;
     protected readonly DbSet<TModel> dbSet = s;
+    protected readonly IPagedRepo<TModel> repo = r;
 
     public async Task<IActionResult> Index() => View(await dbSet.ToListAsync());
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null) return NotFound();
-        var model = await dbSet.FirstOrDefaultAsync(m => m.Id == id);
-        if (model == null) return NotFound();
-        return View(model);
+        var model = await repo.GetAsync(id);
+        return model == null ? NotFound() : View(model);
     }
     public IActionResult Create() => View();
 

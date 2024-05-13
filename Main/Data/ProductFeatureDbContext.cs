@@ -6,14 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Main.Models;
 using Data.Pd;
 
-public class ProductFeatureDbContext : DbContext
+public class ProductFeatureDbContext(DbContextOptions<ProductFeatureDbContext> options) : DbContext(options)
     {
-        public ProductFeatureDbContext (DbContextOptions<ProductFeatureDbContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
+    public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
     public DbSet<ProductData> Product { get; set; } = default!;
-
 }
