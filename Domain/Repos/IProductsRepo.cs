@@ -3,6 +3,6 @@ using Domain.Common;
 using Domain.Pd;
 
 namespace Domain.Repos;
-public interface IProductRepo : IPagedRepo<ProductData>
+public interface IProductsRepo : IPagedRepo<ProductData>
 {
 }
