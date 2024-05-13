@@ -11,12 +11,14 @@ public class BaseController<TModel>(AppDbContext c, DbSet<TModel> s, IPagedRepo<
     protected readonly DbSet<TModel> dbSet = s;
     protected readonly IPagedRepo<TModel> repo = r;
 
-    public async Task<IActionResult> Index(int? pageNr) 
+    public async Task<IActionResult> Index(string searchString, int? pageNr) 
     {
         repo.PageNumber = pageNr;
+        repo.SearchString = searchString;
         ViewBag.HasNextPage = repo.HasNextPage;
         ViewBag.HasPreviousPage = repo.HasPreviousPage;
         ViewBag.PageNumber = repo.PageNrAsInt;
+        ViewBag.SearchString = repo.SearchString;
         return View(await repo.GetAsync());
     }
     public async Task<IActionResult> Details(int? id)

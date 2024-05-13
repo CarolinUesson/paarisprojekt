@@ -3,6 +3,7 @@
     var prevDisabled = !ViewBag.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !ViewBag.HasNextPage ? "disabled" : "";
     var pageNr = ViewBag.PageNumber;
+    var searchString = ViewBag.SearchString;
 }
 
 <h1>Index</h1>
@@ -13,33 +14,43 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@searchString" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
 @RenderBody()
 
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="1"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-searchString="@searchString"
    class="btn btn-default @prevDisabled">
     First
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(pageNr - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-searchString="@searchString"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(pageNr + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-searchString="@searchString"
    class="btn btn-default @nextDisabled">
     Next
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="0"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-searchString="@searchString"
    class="btn btn-default @nextDisabled">
     Last
 </a>
