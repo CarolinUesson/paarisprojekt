@@ -5,6 +5,7 @@ namespace Infra;
 public class DepDbContext(DbContextOptions<DepDbContext> o) : 
     BaseDbContext<DepDbContext>(o)
 {
+    internal const string depSchema = "Dep";
     public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
     public DbSet<ProductData> Product { get; set; } = default!;
     protected override void OnModelCreating(ModelBuilder b)
@@ -15,7 +16,7 @@ public class DepDbContext(DbContextOptions<DepDbContext> o) :
 
     public static void initializeTables(ModelBuilder b)
     {
-        b.Entity<ProductFeatureData>().ToTable(nameof(ProductFeature));
-        b.Entity<ProductData>().ToTable(nameof(Product));
+        toTable<ProductFeatureData>(b, nameof(ProductFeature), depSchema);
+        toTable<ProductData>(b, nameof(Product), depSchema);
     }
 }
