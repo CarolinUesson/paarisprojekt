@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Facade.Pd;
-public class ProductView : EntityView
+public sealed class ProductView : EntityView
 {
 
-    [DisplayName("Description")][Required] public string? Name { get; set; }
+    [DisplayName("Name")][Required] public string? Name { get; set; }
 }
