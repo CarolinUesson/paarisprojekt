@@ -1,4 +1,5 @@
 ﻿using Aids.Methods;
+using Facade.Pd;
 using System;
 
 namespace Tests.Aids.Methods;
@@ -19,6 +20,16 @@ public class GetRndTests : BaseTests
     [TestMethod] public void CharTest() => testRnd(() => GetRnd.Char(), GetRnd.Char);
     [TestMethod] public void DateTimeTest() => testRnd(() => GetRnd.DateTime(), (x, y) => GetRnd.DateTime(x, y));
     [TestMethod] public void DoubleTest() => testRnd(() => GetRnd.Double(), GetRnd.Double);
+    [TestMethod] public void ObjectTest()
+    {
+        var x = GetRnd.Object<ProductView>();
+        var y = GetRnd.Object<ProductView>();
+        var z = new ProductView();
+        Assert.IsInstanceOfType<ProductView>(x);
+        Assert.IsInstanceOfType<ProductView>(y);
+        areNotEqualProperties(x, z);
+        areNotEqualProperties(x, y);
+    }
     [TestMethod] public void StringTest() => Assert.AreNotEqual(GetRnd.String(), GetRnd.String());
     [TestMethod] public void Int8Test() => testRnd(() => GetRnd.Int8(), GetRnd.Int8);
     [TestMethod] public void UInt8Test() => testRnd(() => GetRnd.UInt8(), GetRnd.UInt8);

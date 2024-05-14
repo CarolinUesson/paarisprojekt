@@ -46,17 +46,20 @@ public abstract class BaseTests
         }
         return name;
     }
-    protected static void areEqualProperties(object x, object y)
+    protected static void areEqualProperties(object x, object y) => testProperties(x, y, (a, b) => Assert.AreEqual(a, b));
+    protected static void areNotEqualProperties(object x, object y, params string[] except) => testProperties(x, y, (a, b) => Assert.AreNotEqual(a, b));
+    protected static void testProperties(object x, object y, Action<object?, object?> test, params string[] except)
     {
         if (x is null) Assert.Inconclusive("Object x is null");
         if (y is null) Assert.Inconclusive("Object y is null");
-        foreach(var pX in x.GetType().GetProperties())
+        foreach (var pX in x.GetType().GetProperties())
         {
+            if (except.Contains(pX.Name)) continue;
             var vX = pX.GetValue(x);
             var pY = y.GetType().GetProperty(pX.Name);
             if (pY is null) continue;
             var vY = pY.GetValue(y);
-            Assert.AreEqual(vX, vY);
-        } 
+            test(vX, vY);
+        }
     }
 }
