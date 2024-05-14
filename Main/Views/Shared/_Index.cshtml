@@ -4,6 +4,7 @@
     var nextDisabled = !ViewBag.HasNextPage ? "disabled" : "";
     var pageNr = ViewBag.PageNumber;
     var searchString = ViewBag.SearchString;
+    var sortOrder = ViewBag.SortOrder;
 }
 
 <h1>Index</h1>
@@ -27,28 +28,28 @@
 @RenderBody()
 
 <a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-sortOrder="@sortOrder"
    asp-route-pageNumber="1"
    asp-route-searchString="@searchString"
    class="btn btn-default @prevDisabled">
     First
 </a>
 <a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-sortOrder="@sortOrder"
    asp-route-pageNumber="@(pageNr - 1)"
    asp-route-searchString="@searchString"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
 <a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-sortOrder="sortOrder"
    asp-route-pageNumber="@(pageNr + 1)"
    asp-route-searchString="@searchString"
    class="btn btn-default @nextDisabled">
     Next
 </a>
 <a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-sortOrder="@sortOrder"
    asp-route-pageNumber="0"
    asp-route-searchString="@searchString"
    class="btn btn-default @nextDisabled">

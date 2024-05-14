@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Text.Encodings.Web;
 using Data;
 using Microsoft.AspNetCore.Html;
@@ -67,17 +68,27 @@ public static class HtmlShowTable
     {
         var thead = new TagBuilder("thead");
         var tr = new TagBuilder("tr");
-        foreach (var p in properties) h.addColumn(tr, p.Name, sortOrder, searchStr, pageNr);
+        foreach (var p in properties) h.addColumn(tr, p, sortOrder, searchStr, pageNr);
         h.addColumn(tr, string.Empty);
         thead.InnerHtml.AppendHtml(tr);
         return thead;
     }
-    private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
-        TagBuilder tr, string name, string sortOrder, string searchStr, int pageNr, string tag = "th")
+    private static string newName(PropertyInfo p, string sortOrder)
     {
-        sortOrder = newSortOrder(name, sortOrder);
+        var name = p.Name;
+        var displayName = p.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? name;
+        if (string.IsNullOrEmpty(sortOrder)) return displayName;
+        if (!sortOrder.StartsWith(name)) return displayName;
+        if (sortOrder.EndsWith("_desc")) return $"{displayName} ↓";
+        return $"{displayName} ↑";
+    }
+    private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        TagBuilder tr, PropertyInfo p, string sortOrder, string searchStr, int pageNr, string tag = "td")
+    {
+        var n = newName(p, sortOrder);
+        sortOrder = newSortOrder(p.Name, sortOrder);
         var th = new TagBuilder(tag);
-        var v = h.ActionLink(name, "Index", new { SortOrder = sortOrder, SearchString = searchStr, PageNumber = pageNr });
+        var v = h.ActionLink(n, "Index", new { SortOrder = sortOrder, SearchString = searchStr, PageNumber = pageNr });
         th.InnerHtml.AppendHtml(v);
         tr.InnerHtml.AppendHtml(th);
     }
@@ -91,7 +102,8 @@ public static class HtmlShowTable
         return name + "_desc";
     }
 
-    private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, TagBuilder tr, string value, string tag = "th")
+    private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        TagBuilder tr, string value, string tag = "td")
     {
         var th = new TagBuilder(tag);
         var v = h.Raw(value);
