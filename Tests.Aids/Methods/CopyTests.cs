@@ -12,7 +12,6 @@ public class CopyTests : BaseTests
         var p = GetRnd.Object<ProductData>();
         var v = Copy.Members<ProductData, ProductView>(p);
         Assert.IsInstanceOfType(v, typeof(ProductView));
-        Assert.AreEqual(p.Id, v.Id);
-        Assert.AreEqual(p.Name, v.Name);
+        areEqualProperties(v, p);
     }
 }

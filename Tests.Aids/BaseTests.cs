@@ -46,4 +46,17 @@ public abstract class BaseTests
         }
         return name;
     }
+    protected static void areEqualProperties(object x, object y)
+    {
+        if (x is null) Assert.Inconclusive("Object x is null");
+        if (y is null) Assert.Inconclusive("Object y is null");
+        foreach(var pX in x.GetType().GetProperties())
+        {
+            var vX = pX.GetValue(x);
+            var pY = y.GetType().GetProperty(pX.Name);
+            if (pY is null) continue;
+            var vY = pY.GetValue(y);
+            Assert.AreEqual(vX, vY);
+        } 
+    }
 }
