@@ -3,11 +3,12 @@ using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers;
-public class BaseController<TModel>(IPagedRepo<TModel> r) :
+public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) :
     Controller where TModel : EntityData, new()
 {
     protected readonly IPagedRepo<TModel> repo = r;
-
+    protected abstract TModel toModel(TView v);
+    protected abstract TView toView(TModel m);
     public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
@@ -19,39 +20,41 @@ public class BaseController<TModel>(IPagedRepo<TModel> r) :
         ViewBag.SearchString = repo.SearchString;
         ViewBag.SortOrder = repo.SortOrder;
         ViewBag.TotalPages = repo.TotalPages;
-        return View(await repo.GetAsync());
+        var list = await repo.GetAsync();
+        var viewList = list.Select(toView);
+        return View(viewList);
     }
     public async Task<IActionResult> Details(int? id)
     {
         var model = await repo.GetAsync(id);
-        return model == null ? NotFound() : View(model);
+        return model == null ? NotFound() : View(toView(model));
     }
     public IActionResult Create() => View();
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(TModel model)
+    public async Task<IActionResult> Create(TView view)
          => !ModelState.IsValid
-            ? View(model)
-            : await repo.AddAsync(model)
+            ? View(view)
+            : await repo.AddAsync(toModel(view))
             ? RedirectToAction(nameof(Index))
-            : View(model);
+            : View(view);
     public async Task<IActionResult> Edit(int? id)
     {
         var model = await repo.GetAsync(id);
-        return model == null ? NotFound() : View(model);
+        return model == null ? NotFound() : View(toView(model));
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(TModel model) =>
+    public async Task<IActionResult> Edit(TView view) =>
         !ModelState.IsValid 
-        ? View(model) 
-        : await repo.UpdateAsync(model) 
+        ? View(view) 
+        : await repo.UpdateAsync(toModel(view)) 
         ? RedirectToAction(nameof(Index)) 
-        : View(model);
+        : View(view);
     public async Task<IActionResult> Delete(int? id)
     {
         var model = await repo.GetAsync(id);
-        return model == null ? NotFound() : View(model);
+        return model == null ? NotFound() : View(toView(model));
     }
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]

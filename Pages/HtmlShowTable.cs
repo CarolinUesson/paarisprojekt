@@ -10,7 +10,7 @@ namespace Pages;
 public static class HtmlShowTable
 {
     public static IHtmlContent ShowTable<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
-        IEnumerable<TModel> items, string sortOrder, string searchStr, int pageNr) where TModel : EntityData
+        IEnumerable<TModel> items, string sortOrder, string searchStr, int pageNr) where TModel : IEntity
     {
         var table = new TagBuilder("table");
         table.AddCssClass("table");
@@ -30,7 +30,7 @@ public static class HtmlShowTable
     }
 
     private static TagBuilder createBody<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
-        PropertyInfo[] properties, IEnumerable<TModel> items) where TModel : EntityData
+        PropertyInfo[] properties, IEnumerable<TModel> items) where TModel : IEntity
     {
         var tbody = new TagBuilder("body");
         foreach (var i in items)

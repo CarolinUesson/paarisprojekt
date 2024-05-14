@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Facade.Pd
+namespace Facade.Pd;
+public sealed class ProductFeatureView : EntityView
 {
-    public sealed class ProductFeatureView : EntityView
-    {
-        [DisplayName("Description")][Required] public string? Description { get; set; }
-    }
+    [DisplayName("Description")][Required] public string? Description { get; set; }
 }

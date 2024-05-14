@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facade.Pd;
-internal class ProductView : EntityView
+public class ProductView : EntityView
 {
 
-    [Required] public string? Name { get; set; }
+    [DisplayName("Description")][Required] public string? Name { get; set; }
 }
