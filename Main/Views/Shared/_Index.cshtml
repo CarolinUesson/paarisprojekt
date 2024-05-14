@@ -5,6 +5,8 @@
     var pageNr = ViewBag.PageNumber;
     var searchString = ViewBag.SearchString;
     var sortOrder = ViewBag.SortOrder;
+    var totalPages = ViewBag.TotalPages;
+    var message = $"{pageNr}/{totalPages}";
 }
 
 <h1>Index</h1>
@@ -41,6 +43,7 @@
    class="btn btn-default @prevDisabled">
     Previous
 </a>
+    @message
 <a asp-action="Index"
    asp-route-sortOrder="sortOrder"
    asp-route-pageNumber="@(pageNr + 1)"

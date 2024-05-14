@@ -18,6 +18,7 @@ public class BaseController<TModel>(IPagedRepo<TModel> r) :
         ViewBag.PageNumber = repo.PageNrAsInt;
         ViewBag.SearchString = repo.SearchString;
         ViewBag.SortOrder = repo.SortOrder;
+        ViewBag.TotalPages = repo.TotalPages;
         return View(await repo.GetAsync());
     }
     public async Task<IActionResult> Details(int? id)

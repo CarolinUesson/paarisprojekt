@@ -1,5 +1,6 @@
 ﻿
 using Domain.Repos;
+using Infra.Pd.Init;
 using Main.Data;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -39,14 +40,21 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//var task = Task.Run(async () => await tryInitDbAsync(app));
+var task = Task.Run(async () => await tryInitDbAsync(app));
 
 app.Run();
 
-//static async Task tryInitDbAsync(WebApplication app)
-//{
-//    var db = getContext<AppDbContext>(app);
-//	await new ProductFeatureDbInitializer()
-//}
+task.Wait();
 
-static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => app.Services.CreateScope().ServiceProvider.GetRequiredService<TDbContext>();
+static async Task tryInitDbAsync(WebApplication app)
+{
+    var db = app
+		.Services
+		.CreateScope()
+		.ServiceProvider
+		.GetRequiredService<AppDbContext>();
+	await new ProductFeatureDbInitializer(db, db.ProductFeature).Initialize(100);
+	await new ProductDbInitializer(db, db.Product).Initialize(100);
+}
+
+//static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => app.Services.CreateScope().ServiceProvider.GetRequiredService<TDbContext>();

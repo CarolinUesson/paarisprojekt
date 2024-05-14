@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Aids.Methods;
+using Data.Pd;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Pd.Init;
-internal class ProductDbInitializer
+public sealed class ProductDbInitializer(DbContext c, DbSet<ProductData> s) : DbInitializer<ProductData>(c, s)
 {
+    protected override void setValues(int idx)
+    {
+        if (item == null) return;
+        item.Name = $"Name {idx}: " + GetRnd.String();
+    }
 }
