@@ -1,8 +1,8 @@
 ﻿using Data.Pd;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infra;
-public class DepDbContext(DbContextOptions<DepDbContext> o) : 
+namespace Infra.Pd;
+public class DepDbContext(DbContextOptions<DepDbContext> o) :
     BaseDbContext<DepDbContext>(o)
 {
     internal const string depSchema = "Dep";
@@ -11,7 +11,7 @@ public class DepDbContext(DbContextOptions<DepDbContext> o) :
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
-        initializeTables(b); 
+        initializeTables(b);
     }
 
     public static void initializeTables(ModelBuilder b)

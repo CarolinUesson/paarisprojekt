@@ -2,7 +2,7 @@
 using Domain.Repos;
 using Infra.Common;
 
-namespace Infra;
+namespace Infra.Pd;
 public class ProductFeaturesRepo(DepDbContext c) :
     Repo<ProductFeatureData>(c, c.ProductFeature), IProductFeaturesRepo
 {

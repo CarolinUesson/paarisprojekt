@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Infra;
+using Infra.Pd;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

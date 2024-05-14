@@ -2,7 +2,7 @@
 using Domain.Repos;
 using Infra.Common;
 
-namespace Infra;
+namespace Infra.Pd;
 public class ProductsRepo(DepDbContext c) :
     Repo<ProductData>(c, c.Product), IProductsRepo
 {
