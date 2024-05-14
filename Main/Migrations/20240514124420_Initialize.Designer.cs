@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240426111321_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240514124420_Initialize")]
+    partial class Initialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,23 @@ namespace Main.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Main.Models.ProductFeature", b =>
+            modelBuilder.Entity("Data.Pd.ProductData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Product", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Pd.ProductFeatureData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +52,7 @@ namespace Main.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductFeature");
+                    b.ToTable("ProductFeature", (string)null);
                 });
 #pragma warning restore 612, 618
         }

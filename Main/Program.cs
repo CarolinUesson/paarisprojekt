@@ -42,21 +42,29 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
+ensureCreated(app);
 var task = Task.Run(async () => await tryInitDbAsync(app));
 
 app.Run();
 
 task.Wait();
 
+static void ensureCreated(WebApplication app)
+{
+    var db = getContext<AppDbContext>(app);
+	db.Database.EnsureCreated();
+}
+
 static async Task tryInitDbAsync(WebApplication app)
 {
-    var db = app
-		.Services
-		.CreateScope()
-		.ServiceProvider
-		.GetRequiredService<DepDbContext>();
+    var db = getContext<DepDbContext>(app);
 	await new ProductFeatureDbInitializer(db, db.ProductFeature).Initialize(100);
 	await new ProductDbInitializer(db, db.Product).Initialize(100);
 }
 
-//static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => app.Services.CreateScope().ServiceProvider.GetRequiredService<TDbContext>();
+static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => 
+	app
+	.Services
+	.CreateScope()
+	.ServiceProvider
+	.GetRequiredService<TDbContext>();
