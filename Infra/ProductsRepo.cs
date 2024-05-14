@@ -2,12 +2,12 @@
 using Domain.Repos;
 using Infra.Common;
 
-namespace Main.Data;
-public class ProductsRepo(AppDbContext c) :
+namespace Infra;
+public class ProductsRepo(DepDbContext c) :
     Repo<ProductData>(c, c.Product), IProductsRepo
 {
     protected override IQueryable<ProductData> addFilter(IQueryable<ProductData> sql) =>
-        string.IsNullOrEmpty(SearchString) 
-        ? sql 
-        : sql.Where(s => (s.Name != null) && s.Name.Contains(SearchString));
+        string.IsNullOrEmpty(SearchString)
+        ? sql
+        : sql.Where(s => s.Name != null && s.Name.Contains(SearchString));
 }

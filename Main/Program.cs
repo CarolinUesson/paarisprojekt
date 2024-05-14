@@ -1,7 +1,7 @@
 ﻿
 using Domain.Repos;
+using Infra;
 using Infra.Pd.Init;
-using Main.Data;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -11,7 +11,9 @@ using System.Configuration;
 var b = WebApplication.CreateBuilder(args);
 
 b.Services.AddDbContext<AppDbContext>(o =>
-    o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'ProductFeatureDbContext' not found.")));
+    o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
+b.Services.AddDbContext<DepDbContext>(o =>
+    o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'DepDbContext' not found.")));
 
 // Add services to the container.
 b.Services.AddControllersWithViews();
@@ -52,7 +54,7 @@ static async Task tryInitDbAsync(WebApplication app)
 		.Services
 		.CreateScope()
 		.ServiceProvider
-		.GetRequiredService<AppDbContext>();
+		.GetRequiredService<DepDbContext>();
 	await new ProductFeatureDbInitializer(db, db.ProductFeature).Initialize(100);
 	await new ProductDbInitializer(db, db.Product).Initialize(100);
 }
