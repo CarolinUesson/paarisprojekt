@@ -6,4 +6,4 @@
     Layout = "_Index";
 }
 
-@Html.ShowTable(Model)
+@Html.ShowTable(Model, (string)ViewBag.SortOrder, (string)ViewBag.SearchString, (int)ViewBag.PageNumber)

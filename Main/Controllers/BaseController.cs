@@ -8,14 +8,16 @@ public class BaseController<TModel>(IPagedRepo<TModel> r) :
 {
     protected readonly IPagedRepo<TModel> repo = r;
 
-    public async Task<IActionResult> Index(string searchString, int? pageNr)
+    public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
         repo.SearchString = searchString;
+        repo.SortOrder = sortOrder;
         ViewBag.HasNextPage = repo.HasNextPage;
         ViewBag.HasPreviousPage = repo.HasPreviousPage;
         ViewBag.PageNumber = repo.PageNrAsInt;
         ViewBag.SearchString = repo.SearchString;
+        ViewBag.SortOrder = repo.SortOrder;
         return View(await repo.GetAsync());
     }
     public async Task<IActionResult> Details(int? id)

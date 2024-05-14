@@ -9,14 +9,14 @@ namespace Pages;
 public static class HtmlShowTable
 {
     public static IHtmlContent ShowTable<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
-        IEnumerable<TModel> items) where TModel : EntityData
+        IEnumerable<TModel> items, string sortOrder, string searchStr, int pageNr) where TModel : EntityData
     {
         var table = new TagBuilder("table");
         table.AddCssClass("table");
 
         var properties = getProperties(typeof(TModel));
 
-        var thead = h.createHead(properties);
+        var thead = h.createHead(properties, sortOrder, searchStr, pageNr);
         table.InnerHtml.AppendHtml(thead);
 
         var tbody = h.createBody(properties, items);
@@ -62,15 +62,35 @@ public static class HtmlShowTable
         td.InnerHtml.AppendHtml(new HtmlString(" | "));
     }
 
-    private static TagBuilder createHead<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, PropertyInfo[] properties)
+    private static TagBuilder createHead<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        PropertyInfo[] properties, string sortOrder, string searchStr, int pageNr)
     {
         var thead = new TagBuilder("thead");
         var tr = new TagBuilder("tr");
-        foreach (var p in properties) h.addColumn(tr, p.Name);
+        foreach (var p in properties) h.addColumn(tr, p.Name, sortOrder, searchStr, pageNr);
         h.addColumn(tr, string.Empty);
         thead.InnerHtml.AppendHtml(tr);
         return thead;
     }
+    private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, 
+        TagBuilder tr, string name, string sortOrder, string searchStr, int pageNr, string tag = "th")
+    {
+        sortOrder = newSortOrder(name, sortOrder);
+        var th = new TagBuilder(tag);
+        var v = h.ActionLink(name, "Index", new { SortOrder = sortOrder, SearchString = searchStr, PageNumber = pageNr });
+        th.InnerHtml.AppendHtml(v);
+        tr.InnerHtml.AppendHtml(th);
+    }
+
+    private static string newSortOrder(string name, string sortOrder)
+    {
+        if (name is null) return string.Empty;
+        if(sortOrder is null ) return name;
+        if (!sortOrder.StartsWith(name)) return name;
+        if(sortOrder.EndsWith("_desc")) return name;
+        return name + "_desc";
+    }
+
     private static void addColumn<TModel>(this IHtmlHelper<IEnumerable<TModel>> h, TagBuilder tr, string value, string tag = "th")
     {
         var th = new TagBuilder(tag);
