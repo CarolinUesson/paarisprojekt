@@ -1,14 +1,16 @@
-﻿using Data;
+﻿using Aids.Methods;
+using Data;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers;
-public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) :
-    Controller where TModel : EntityData, new()
+public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Controller 
+    where TModel : EntityData, new() 
+    where TView : class, new()
 {
     protected readonly IPagedRepo<TModel> repo = r;
-    protected abstract TModel toModel(TView v);
-    protected abstract TView toView(TModel m);
+    private static TModel toModel(TView v) => Copy.Members<TView, TModel>(v);
+    private static TView toView(TModel m) => Copy.Members<TModel, TView>(m);
     public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
