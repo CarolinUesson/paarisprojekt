@@ -1,10 +1,20 @@
 ﻿using Aids.Methods;
+using System;
 
 namespace Tests.Aids.Methods;
 [TestClass]
 public class GetRndTests : BaseTests
 {
     protected override Type? type => typeof(GetRnd);
+    
+    [TestMethod, DynamicData(nameof(testData), DynamicDataSourceType.Method)] 
+    public void AnyTest(Type? t)
+    {
+        var x = GetRnd.Any(t);
+        var y = GetRnd.Any(t);
+        while (x?.CompareTo(y) == 0) y = GetRnd.Any(t);
+        Assert.AreNotEqual(x, y);
+    }
     [TestMethod] public void BoolTest() => testRnd(GetRnd.Bool);
     [TestMethod] public void CharTest() => testRnd(() => GetRnd.Char(), GetRnd.Char);
     [TestMethod] public void DateTimeTest() => testRnd(() => GetRnd.DateTime(), (x, y) => GetRnd.DateTime(x, y));
@@ -18,6 +28,34 @@ public class GetRndTests : BaseTests
     [TestMethod] public void UInt32Test() => testRnd(() => GetRnd.UInt32(), GetRnd.UInt32);
     [TestMethod] public void Int64Test() => testRnd(() => GetRnd.Int64(), GetRnd.Int64);
     [TestMethod] public void UInt64Test() => testRnd(() => GetRnd.UInt64(), GetRnd.UInt64);
+    private static IEnumerable<Type[]> testData()
+    {
+        yield return new Type[] { typeof(bool) };
+        yield return new Type[] { typeof(bool?) };
+        yield return new Type[] { typeof(char) };
+        yield return new Type[] { typeof(char?) };
+        yield return new Type[] { typeof(DateTime) };
+        yield return new Type[] { typeof(DateTime?) };
+        yield return new Type[] { typeof(double) };
+        yield return new Type[] { typeof(double?) };
+        yield return new Type[] { typeof(string) };
+        yield return new Type[] { typeof(sbyte) };
+        yield return new Type[] { typeof(sbyte?) };
+        yield return new Type[] { typeof(byte) };
+        yield return new Type[] { typeof(byte?) };
+        yield return new Type[] { typeof(short) };
+        yield return new Type[] { typeof(short?) };
+        yield return new Type[] { typeof(ushort) };
+        yield return new Type[] { typeof(ushort?) };
+        yield return new Type[] { typeof(int) };
+        yield return new Type[] { typeof(int?) };
+        yield return new Type[] { typeof(uint) };
+        yield return new Type[] { typeof(uint?) };
+        yield return new Type[] { typeof(long) };
+        yield return new Type[] { typeof(long?) };
+        yield return new Type[] { typeof(ulong) };
+        yield return new Type[] { typeof(ulong?) }; 
+    }
     private static void testRnd<T>(Func<T> f) where T : IComparable<T>
     {
         T x = f();
