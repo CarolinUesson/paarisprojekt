@@ -1,6 +1,6 @@
 ﻿namespace Domain.Common;
 public interface IOrderedRepo<TEntity> : 
-    IFilteredRepo<TEntity> where TEntity : class, new() 
+    IFilteredRepo<TEntity> where TEntity : class 
 {
     string SortOrder { get; set; }
 }

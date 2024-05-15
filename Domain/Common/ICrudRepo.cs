@@ -1,5 +1,5 @@
 ﻿namespace Domain.Common;
-public interface ICrudRepo<TEntity> where TEntity : class, new()
+public interface ICrudRepo<TEntity> where TEntity : class
 {
     Task<IEnumerable<TEntity>> GetAsync();
     Task<TEntity?> GetAsync(int? id);

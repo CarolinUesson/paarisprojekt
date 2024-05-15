@@ -1,7 +1,6 @@
-﻿using Data.Pd;
-using Domain.Common;
+﻿using Domain.Common;
 
 namespace Domain.Repos;
-public interface IProductFeaturesRepo : IPagedRepo<ProductFeatureData>
+public interface IProductFeaturesRepo : IPagedRepo<ProductFeature>
 {
 }

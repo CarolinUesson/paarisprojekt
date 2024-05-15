@@ -1,7 +1,6 @@
-﻿
-namespace Domain.Common;
+﻿namespace Domain.Common;
 public interface IPagedRepo<TEntity> : 
-    IOrderedRepo<TEntity> where TEntity : class, new()
+    IOrderedRepo<TEntity> where TEntity : class
 {
     int? PageNumber { get; set; }
     int PageNrAsInt {  get; }

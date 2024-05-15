@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers;
 public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Controller 
-    where TModel : EntityData, new() 
+    where TModel : class 
     where TView : class, new()
 {
     protected readonly IPagedRepo<TModel> repo = r;
-    private static TModel toModel(TView v) => Copy.Members<TView, TModel>(v);
-    private static TView toView(TModel m) => Copy.Members<TModel, TView>(m);
+    protected abstract TModel toModel(TView v);
+    protected virtual TView toView(TModel m) => Copy.Members<TModel, TView>(m);
     public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
