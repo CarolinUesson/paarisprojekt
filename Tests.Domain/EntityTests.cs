@@ -15,4 +15,5 @@ public class EntityTests : AbstractTests<Entity<ProductFeatureData>, object>
         return new entity(data);
     }
     [TestMethod] public void IdTest() => Assert.AreEqual(data?.Id, obj?.Id);
+    [TestMethod] public void DataTest() => areEqualProperties(data, obj?.Data);
 }
