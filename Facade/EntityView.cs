@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace Facade;
