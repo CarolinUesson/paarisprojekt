@@ -1,9 +1,10 @@
-﻿using Data;
+﻿using Aids.Methods;
+using Data;
 
 namespace Domain;
 public abstract class Entity<TData>(TData? d) where TData : EntityData, new()
 {
     internal readonly TData data = d ?? new TData();
-    public TData Data => data;
+    public TData Data => Copy.Members<TData, TData>(data);
     public int Id => data.Id;
 }
