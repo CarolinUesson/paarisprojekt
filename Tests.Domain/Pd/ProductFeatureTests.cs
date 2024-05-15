@@ -1,19 +1,10 @@
-﻿using Aids.Methods;
-using Data;
-using Data.Pd;
+﻿using Data.Pd;
 using Domain;
-using Domain.Pd;
-using Tests.Aids;
+using Tests.Domain.Pd;
 
 namespace Tests.Domain;
 [TestClass]
-public class ProductFeatureTests : SealedTests<ProductFeature, Entity<ProductFeatureData>>
+public class ProductFeatureTests : DomainClassTests<ProductFeature, ProductFeatureData>
 {
-    private ProductFeatureData data;
-    protected override ProductFeature? createObject()
-    {
-        data = GetRnd.Object<ProductFeatureData>();
-        return new ProductFeature(data);
-    }
-    [TestMethod] public void DescriptionTest() => Assert.AreEqual(data?.Description, obj?.Description);
+    [TestMethod] public void DescriptionTest() => valueTest();
 }
