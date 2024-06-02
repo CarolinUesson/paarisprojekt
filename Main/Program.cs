@@ -21,6 +21,8 @@ b.Services.AddControllersWithViews();
 b.Services.AddTransient<IProductFeaturesRepo, ProductFeaturesRepo>();
 b.Services.AddTransient<IProductsRepo, ProductsRepo>();
 b.Services.AddTransient<IPriceComponentsRepo, PriceComponentsRepo>();
+b.Services.AddTransient<IDeploymentsRepo, DeploymentsRepo>();
+
 
 var app = b.Build();
 

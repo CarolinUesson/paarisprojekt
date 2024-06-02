@@ -11,8 +11,8 @@ public class PriceComponentsRepo(DepDbContext c):
         string.IsNullOrEmpty(SearchString)
         ? sql
         : sql.Where(s => (s.FromDate.ToString().Contains(SearchString))
-     || s.ThruDate.ToString().Contains(SearchString)
-         || s.Price.ToString().Contains(SearchString)
+     || s.ThruDate != null && s.ThruDate.ToString().Contains(SearchString)
+         || s.Price != null && s.Price.ToString().Contains(SearchString)
         || s.Type != null && s.Type.Contains(SearchString));
 
 

@@ -9,6 +9,9 @@ public class DepDbContext(DbContextOptions<DepDbContext> o) :
     public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
     public DbSet<ProductData> Product { get; set; } = default!;
     public DbSet<PriceComponentData> PriceComponent { get; set; } = default!;
+
+    public DbSet<DeploymentData> Deployment { get; set; } = default!;
+
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
