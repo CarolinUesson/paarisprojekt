@@ -1,0 +1,10 @@
+﻿@model Facade.Pd.DeploymentView
+@using Pages
+
+@{
+    ViewData["Title"] = "Deployment";
+    ViewData["ItemId"] = Model.Id;
+    Layout = "_Details";
+}
+
+<partial name="_ShowDeployment" />

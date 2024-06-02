@@ -1,0 +1,10 @@
+﻿@model IEnumerable<DeploymentView>
+@using Facade.Pd
+@using Pages
+
+@{
+    ViewData["Title"] = "Deployment";
+    Layout = "_Index";
+}
+
+@Html.ShowTable(Model, (string)ViewBag.SortOrder, (string)ViewBag.SearchString, (int)ViewBag.PageNumber)
