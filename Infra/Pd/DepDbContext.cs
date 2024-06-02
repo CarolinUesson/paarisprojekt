@@ -8,6 +8,7 @@ public class DepDbContext(DbContextOptions<DepDbContext> o) :
     internal const string depSchema = "Dep";
     public DbSet<ProductFeatureData> ProductFeature { get; set; } = default!;
     public DbSet<ProductData> Product { get; set; } = default!;
+    public DbSet<PriceComponentData> PriceComponent { get; set; } = default!;
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
@@ -18,5 +19,6 @@ public class DepDbContext(DbContextOptions<DepDbContext> o) :
     {
         toTable<ProductFeatureData>(b, nameof(ProductFeature), depSchema);
         toTable<ProductData>(b, nameof(Product), depSchema);
+        toTable<PriceComponentData>(b, nameof(PriceComponent), depSchema);
     }
 }
