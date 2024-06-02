@@ -1,0 +1,10 @@
+﻿@model IEnumerable<PriceComponentView>
+@using Facade.Pd
+@using Pages
+
+@{
+    ViewData["Title"] = "Price Component";
+    Layout = "_Index";
+}
+
+@Html.ShowTable(Model, (string)ViewBag.SortOrder, (string)ViewBag.SearchString, (int)ViewBag.PageNumber)

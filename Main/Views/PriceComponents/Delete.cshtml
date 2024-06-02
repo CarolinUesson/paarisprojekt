@@ -1,0 +1,10 @@
+﻿@model Facade.Pd.PriceComponentView
+@using Pages
+
+@{
+    ViewData["Title"] = "Price Component";
+    ViewData["ItemId"] = Model.Id;
+    Layout = "_Delete";
+}
+
+<partial name="_ShowPriceComponent" />
