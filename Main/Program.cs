@@ -61,6 +61,7 @@ static async Task tryInitDbAsync(WebApplication app)
     var db = getContext<DepDbContext>(app);
 	await new ProductFeatureDbInitializer(db, db.ProductFeature).Initialize(100);
 	await new ProductDbInitializer(db, db.Product).Initialize(100);
+    await new PriceComponentDbInitializer(db, db.PriceComponent).Initialize(100);
 }
 
 static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => 
