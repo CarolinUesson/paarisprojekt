@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -35,6 +36,22 @@ namespace Main.Migrations
                 {
                     table.PrimaryKey("PK_ProductFeature", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PriceComponent",
+                columns: table => new {
+                   
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ThruDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table => {
+                    table.PrimaryKey("PK_PriceComponent", x => x.Id);
+                });
+             
         }
 
         /// <inheritdoc />
@@ -45,6 +62,11 @@ namespace Main.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductFeature");
+
+            migrationBuilder.DropTable(
+                    name: "PriceComponent");
+
+
         }
     }
 }
