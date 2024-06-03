@@ -1,10 +1,8 @@
 ﻿using Tests.Aids;
 
 namespace Data.Pd;
-[TestClass] public class PriceComponentDataTests : SealedNewTests<PriceComponentData, EntityData>
+[TestClass] public class PriceComponentDataTests : SealedNewTests<PriceComponentData, DateData>
 {
-    [TestMethod] public void FromDateTest() => propertyTest();
-    [TestMethod] public void ThruDateTest() => propertyTest();
     [TestMethod] public void PriceTest() => propertyTest();
     [TestMethod] public void TypeTest() => propertyTest();
 }
