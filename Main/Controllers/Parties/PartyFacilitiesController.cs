@@ -14,6 +14,7 @@ public class PartyFacilitiesController(IPartyFacilityRepo r, IPartyRepo pRepo) :
     protected override async Task loadRelatedItems(PartyFacility? model)
     {
         await base.loadRelatedItems(model);
+        pRepo.PageSize = pRepo.TotalItems;
         var par = await pRepo.GetAsync();
         ViewBag.Parties = new SelectList(par, nameof(Party.Id), nameof(Party.Name));
     }
