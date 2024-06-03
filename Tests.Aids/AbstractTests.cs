@@ -29,12 +29,15 @@ public abstract class AbstractTests<TClass, TBaseClass> : BaseTests
         var pi = type?.GetProperty(name);
         validateDisplayName(pi, displayName);
         validateIsRequired(pi, isRequired);
+
+
         var t = pi?.PropertyType;
         var v = GetRnd.Any(t);
         Assert.IsNotNull(v, $"GetRandom.Any returns null for type <{t?.Name}>");
         pi?.SetValue(obj, v);
         Assert.AreEqual(v, pi?.GetValue(obj));
     }
+    //var types = GetSolution.Types(solutionName).Select(x => x.Name.Replace("`1", string.Empty));
 
     private static void validateIsRequired(PropertyInfo? pi, bool? isRequired)
     {

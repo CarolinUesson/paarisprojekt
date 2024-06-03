@@ -13,6 +13,22 @@ public class GetRnd
         var ticks = Int64(minValue, maxValue);
         return new DateTime(ticks);
     }
+    public static decimal Decimal(decimal min = decimal.MinValue, decimal max = decimal.MaxValue)
+    {
+        int[] bits = new int[4];
+        bits[0] = Int32();
+        bits[1] = Int32();
+        bits[2] = Int32();
+        bits[3] = 0;
+        var d = new Decimal(bits);
+        if (d < min || d > max)
+        {
+            Decimal range = max - min;
+            Decimal fractions = d / decimal.MaxValue;
+            d = min + fractions * range;
+        }
+        return d;
+    }
     public static double Double(double min = short.MinValue, double max = short.MaxValue)
     {
         if (min > max)
@@ -47,6 +63,8 @@ public class GetRnd
         if (t == typeof(char?)) return Char();
         if (t == typeof(DateTime)) return DateTime();
         if (t == typeof(DateTime?)) return DateTime();
+        if (t == typeof(decimal)) return Decimal();
+        if (t == typeof(decimal?)) return Decimal();
         if (t == typeof(double)) return Double();
         if (t == typeof(double?)) return Double();
         if (t == typeof(string)) return String();
