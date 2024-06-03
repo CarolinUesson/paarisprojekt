@@ -10,6 +10,7 @@ public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Cont
 {
     protected readonly IPagedRepo<TModel> repo = r;
     protected abstract TModel toModel(TView v);
+    protected virtual async Task loadRelatedItems(TModel? model) => await Task.CompletedTask;
     protected virtual TView toView(TModel m) => Copy.Members<TModel, TView>(m);
     public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
@@ -43,8 +44,11 @@ public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Cont
     public async Task<IActionResult> Edit(int? id)
     {
         var model = await repo.GetAsync(id);
+        await loadRelatedItems(model);
         return model == null ? NotFound() : View(toView(model));
     }
+
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(TView view) =>
