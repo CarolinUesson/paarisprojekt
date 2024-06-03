@@ -6,7 +6,7 @@ using Facade.Parties;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Main.Controllers.Parties;
-public class PartyFacilitiesController(IPartyFacilityRepo r, IPartyRepo pRepo) : 
+public class PartyFacilitiesController(IPartyFacilityRepo r, IPartyRepo pRepo = null) : 
     BaseController<PartyFacility, PartyFacilityView>(r)
 {
     protected override PartyFacility toModel(PartyFacilityView v) => 
@@ -14,8 +14,12 @@ public class PartyFacilitiesController(IPartyFacilityRepo r, IPartyRepo pRepo) :
     protected override async Task loadRelatedItems(PartyFacility? model)
     {
         await base.loadRelatedItems(model);
-        pRepo.PageSize = pRepo.TotalItems;
-        var par = await pRepo.GetAsync();
-        ViewBag.Parties = new SelectList(par, nameof(Party.Id), nameof(Party.Name));
+        ViewBag.Parties = await new PartiesController(pRepo).SelectListAsync();
+    }
+    internal async Task<dynamic> SelectListAsync()
+    {
+        repo.PageSize = repo.TotalItems;
+        var pf = (await repo.GetAsync()).Select(toView);
+        return new SelectList(pf, nameof(PartyFacilityView.Id), nameof(PartyFacilityView.PartyId));
     }
 }
