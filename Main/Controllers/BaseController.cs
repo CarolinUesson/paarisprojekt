@@ -1,17 +1,27 @@
 ﻿using Aids.Methods;
 using Data;
 using Domain.Common;
+using Facade;
+using Facade.Parties;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Main.Controllers;
 public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Controller 
     where TModel : class 
-    where TView : class, new()
+    where TView : EntityView, new()
 {
     protected readonly IPagedRepo<TModel> repo = r;
     protected abstract TModel toModel(TView v);
     protected virtual async Task loadRelatedItems(TModel? model) => await Task.CompletedTask;
     protected virtual TView toView(TModel m) => Copy.Members<TModel, TView>(m);
+    protected virtual string selectItemTextField => nameof(EntityView.Id);
+    protected internal async Task<SelectList> SelectListAsync()
+    {
+        repo.PageSize = repo.TotalItems;
+        var parties = (await repo.GetAsync()).Select(toView);
+        return new SelectList(parties, nameof(PartyView.Id), selectItemTextField);
+    }
     public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNr)
     {
         repo.PageNumber = pageNr;
@@ -68,5 +78,4 @@ public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Cont
         await repo.DeleteAsync(id) 
         ? RedirectToAction(nameof(Index)) 
         : RedirectToAction(nameof(Delete), id);
-    
 }
