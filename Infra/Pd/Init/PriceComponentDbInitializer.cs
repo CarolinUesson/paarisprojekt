@@ -12,7 +12,7 @@ public sealed class PriceComponentDbInitializer(DbContext c, DbSet<PriceComponen
 
         if (item == null) return;
         item.FromDate = GetRnd.DateTime(DateTime.Now.AddYears(-20), DateTime.Now.AddYears(-5));
-        item.FromDate = GetRnd.DateTime(DateTime.Now.AddYears(-20), DateTime.Now.AddYears(-5));
+        item.ThruDate = GetRnd.DateTime(DateTime.Now.AddYears(-20), DateTime.Now.AddYears(-5));
         item.Price = GenerateRndPrice();
         item.Type = GenerateRndType();
     }
