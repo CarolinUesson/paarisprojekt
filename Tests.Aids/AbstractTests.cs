@@ -37,7 +37,6 @@ public abstract class AbstractTests<TClass, TBaseClass> : BaseTests
         pi?.SetValue(obj, v);
         Assert.AreEqual(v, pi?.GetValue(obj));
     }
-    //var types = GetSolution.Types(solutionName).Select(x => x.Name.Replace("`1", string.Empty));
 
     private static void validateIsRequired(PropertyInfo? pi, bool? isRequired)
     {
