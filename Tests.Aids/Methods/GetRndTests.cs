@@ -19,6 +19,7 @@ public class GetRndTests : BaseTests
     [TestMethod] public void BoolTest() => testRnd(GetRnd.Bool);
     [TestMethod] public void CharTest() => testRnd(() => GetRnd.Char(), GetRnd.Char);
     [TestMethod] public void DateTimeTest() => testRnd(() => GetRnd.DateTime(), (x, y) => GetRnd.DateTime(x, y));
+    [TestMethod] public void DecimalTest() => testRnd(() => GetRnd.Decimal(), GetRnd.Decimal);
     [TestMethod] public void DoubleTest() => testRnd(() => GetRnd.Double(), GetRnd.Double);
     [TestMethod] public void ObjectTest()
     {
