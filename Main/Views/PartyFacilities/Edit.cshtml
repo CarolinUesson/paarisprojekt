@@ -1,0 +1,10 @@
+﻿@model Facade.Parties.PartyFacilityView
+@using Pages
+
+@{
+    ViewData["Title"] = "Party Facility";
+    ViewData["ItemId"] = Model.Id;
+    Layout = "_Edit";
+}
+
+<partial name="_EditPartyFacility" />

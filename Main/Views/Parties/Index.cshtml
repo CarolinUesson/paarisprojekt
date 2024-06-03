@@ -1,0 +1,10 @@
+﻿@model IEnumerable<PartyView>
+@using Facade.Parties
+@using Pages
+
+@{
+    ViewData["Title"] = "Party";
+    Layout = "_Index";
+}
+
+@Html.ShowTable(Model, (string)ViewBag.SortOrder, (string)ViewBag.SearchString, (int)ViewBag.PageNumber)

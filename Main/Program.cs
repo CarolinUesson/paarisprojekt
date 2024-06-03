@@ -1,5 +1,8 @@
 ﻿
 using Domain.Repos;
+using Domain.Repos.Parties;
+using Infra.Parties;
+using Infra.Parties.Init;
 using Infra.Pd;
 using Infra.Pd.Init;
 using Microsoft.AspNetCore.SignalR;
@@ -14,6 +17,8 @@ b.Services.AddDbContext<AppDbContext>(o =>
     o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
 b.Services.AddDbContext<DepDbContext>(o =>
     o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'DepDbContext' not found.")));
+b.Services.AddDbContext<PartyDbContext>(o =>
+    o.UseSqlServer(b.Configuration.GetConnectionString("ProductFeatureDbContext") ?? throw new InvalidOperationException("Connection string 'PartyDbContext' not found.")));
 
 // Add services to the container.
 b.Services.AddControllersWithViews();
@@ -22,6 +27,8 @@ b.Services.AddTransient<IProductFeaturesRepo, ProductFeaturesRepo>();
 b.Services.AddTransient<IProductsRepo, ProductsRepo>();
 b.Services.AddTransient<IPriceComponentsRepo, PriceComponentsRepo>();
 b.Services.AddTransient<IDeploymentsRepo, DeploymentsRepo>();
+b.Services.AddTransient<IPartyRepo, PartiesRepo>();
+b.Services.AddTransient<IPartyFacilityRepo, PartyFacilitiesRepo>();
 
 
 var app = b.Build();
@@ -47,6 +54,7 @@ app.MapControllerRoute(
 
 ensureCreated(app);
 var task = Task.Run(async () => await tryInitDbAsync(app));
+var tasks = Task.Run(async () => await tryInitializeDbAsync(app));
 
 app.Run();
 
@@ -65,9 +73,15 @@ static async Task tryInitDbAsync(WebApplication app)
 	await new ProductDbInitializer(db, db.Product).Initialize(100);
     await new PriceComponentDbInitializer(db, db.PriceComponent).Initialize(100);
 	await new DeploymentDbInitializer(db, db.Deployment).Initialize(100);
+	
+}
+static async Task tryInitializeDbAsync(WebApplication app)
+{
+    var db = getContext<PartyDbContext>(app);
+    await new PartyDbInitializer(db, db.Party).Initialize(100);
 }
 
-static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => 
+    static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => 
 	app
 	.Services
 	.CreateScope()

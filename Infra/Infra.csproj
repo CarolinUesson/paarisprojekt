@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Facade\Facade.csproj" />
-	  <InternalsVisibleTo Include="Main"/>
+	  <InternalsVisibleTo Include="Main" />
   </ItemGroup>
 
 </Project>
