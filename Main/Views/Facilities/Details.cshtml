@@ -1,0 +1,10 @@
+﻿@model Facade.Parties.FacilityView
+@using Pages
+
+@{
+    ViewData["Title"] = "Facility";
+    ViewData["ItemId"] = Model.Id;
+    Layout = "_Details";
+}
+
+<partial name="_ShowFacility" />

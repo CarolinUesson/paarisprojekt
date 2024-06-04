@@ -1,0 +1,10 @@
+﻿@model IEnumerable<FacilityView>
+@using Facade.Parties
+@using Pages
+
+@{
+    ViewData["Title"] = "Facility";
+    Layout = "_Index";
+}
+
+@Html.ShowTable(Model, (string)ViewBag.SortOrder, (string)ViewBag.SearchString, (int)ViewBag.PageNumber)

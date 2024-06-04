@@ -8,6 +8,7 @@ public class PartyDbContext(DbContextOptions<PartyDbContext> o) : BaseDbContext<
     internal const string partySchema = "Party";
     public DbSet<PartyData> Party { get; set; } = default!;
     public DbSet<PartyFacilityData> PartyFacility { get; set; } = default!;
+    public DbSet<FacilityData> Facility { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder b)
     {

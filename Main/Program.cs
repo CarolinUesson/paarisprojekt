@@ -28,6 +28,7 @@ b.Services.AddTransient<IProductsRepo, ProductsRepo>();
 b.Services.AddTransient<IPriceComponentsRepo, PriceComponentsRepo>();
 b.Services.AddTransient<IDeploymentsRepo, DeploymentsRepo>();
 b.Services.AddTransient<IPartyRepo, PartiesRepo>();
+b.Services.AddTransient<IFacilityRepo, FacilitiesRepo>();
 b.Services.AddTransient<IPartyFacilityRepo, PartyFacilitiesRepo>();
 
 
@@ -79,6 +80,7 @@ static async Task tryInitializeDbAsync(WebApplication app)
 {
     var db = getContext<PartyDbContext>(app);
     await new PartyDbInitializer(db, db.Party).Initialize(100);
+    await new FacilityDbInitializer(db, db.Facility).Initialize(100);
 }
 
     static TDbContext getContext<TDbContext>(WebApplication app) where TDbContext : DbContext => 
