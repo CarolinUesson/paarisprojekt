@@ -1,5 +1,5 @@
 ﻿@model Facade.Parties.PartyFacilityView
 @using Pages
 
-@Html.SelectItem(model => model.PartyId, (SelectList)ViewBag.Parties)
+@Html.SelectItem(model => model.PartyId, "Parties")
 @Html.SelectItem(model => model.FacilityId, (SelectList)ViewBag.Facilities)
