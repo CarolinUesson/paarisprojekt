@@ -3,15 +3,21 @@
         selectedId = $this.data('id'),
         controller = $this.data('controller');
 
+    if (selectedId) {
+        $.getJSON(`/${controller}/selectItem`, { id: selectedId }, function (data) {
+            $this.append(new Option(data.text, data.value, true, true)).trigger('change');
+        });
+    }
+
     $this.select2({
-        placeholder: `Select value: controller=${controller}; id=${selectedId}`,
+        placeholder: `Select value`,
         theme: "bootstrap4",
         allowClear: true,
         ajax: {
             url: `/${controller}/selectItems`,
             data: function (params) {
                 return {
-                    researchString: params.term,
+                    searchString: params.term,
                     id: selectedId
                 };
             },

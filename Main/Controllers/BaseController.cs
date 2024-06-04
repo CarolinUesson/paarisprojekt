@@ -82,4 +82,8 @@ public abstract class BaseController<TModel, TView>(IRepo<TModel> r) : Controlle
     {
         return Ok(await repo.SelectItems(searchString, id));
     }
+    public async Task<IActionResult> SelectItem(int id)
+    {
+        return Ok(await repo.SelectItem(id));
+    }
 }

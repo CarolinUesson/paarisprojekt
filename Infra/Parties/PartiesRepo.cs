@@ -1,4 +1,5 @@
-﻿using Data.Parties;
+﻿using Data;
+using Data.Parties;
 using Domain.Parties;
 using Domain.Repos.Parties;
 using Infra.Common;
@@ -6,6 +7,7 @@ using Infra.Common;
 namespace Infra.Parties;
 public class PartiesRepo(PartyDbContext c) : Repo<Party, PartyData>(c, c.Party), IPartyRepo
 {
+    protected internal override string selectTextField => nameof(PartyData.Name);
     protected override IQueryable<PartyData> addFilter(IQueryable<PartyData> sql) => 
         string.IsNullOrEmpty(SearchString)
         ? sql
