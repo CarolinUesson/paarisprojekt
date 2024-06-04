@@ -2,6 +2,6 @@
 using Domain.Pd;
 
 namespace Domain.Repos;
-public interface IProductsRepo : IPagedRepo<Product>
+public interface IProductsRepo : IRepo<Product>
 {
 }

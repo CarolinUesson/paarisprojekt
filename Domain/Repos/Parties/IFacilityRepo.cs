@@ -2,4 +2,4 @@
 using Domain.Parties;
 
 namespace Domain.Repos.Parties;
-public interface IFacilityRepo : IPagedRepo<Facility> { }
+public interface IFacilityRepo : IRepo<Facility> { }

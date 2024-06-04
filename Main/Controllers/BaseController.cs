@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Main.Controllers;
-public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Controller 
+public abstract class BaseController<TModel, TView>(IRepo<TModel> r) : Controller 
     where TModel : class 
     where TView : EntityView, new()
 {
-    protected readonly IPagedRepo<TModel> repo = r;
+    protected readonly IRepo<TModel> repo = r;
     protected abstract TModel toModel(TView v);
     protected virtual async Task loadRelatedItems(TModel? model) => await Task.CompletedTask;
     protected virtual TView toView(TModel m) => Copy.Members<TModel, TView>(m);
@@ -78,4 +78,8 @@ public abstract class BaseController<TModel, TView>(IPagedRepo<TModel> r) : Cont
         await repo.DeleteAsync(id) 
         ? RedirectToAction(nameof(Index)) 
         : RedirectToAction(nameof(Delete), id);
+    public async Task<IActionResult> SelectItems(string searchString, int id)
+    {
+        return Ok(await repo.SelectItems(searchString, id));
+    }
 }

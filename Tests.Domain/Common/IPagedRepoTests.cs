@@ -3,7 +3,7 @@ using Domain.Pd;
 
 namespace Tests.Domain.Common;
 
-[TestClass] public class IPagedRepoTests : InterfaceTests<IPagedRepo<Product>>
+[TestClass] public class IPagedRepoTests : InterfaceTests<IRepo<Product>>
 {
     [TestMethod] public void PageNumberTest() => propertyTest<int?>();
     [TestMethod] public void PageNrAsIntTest() => propertyTest<int>(false);

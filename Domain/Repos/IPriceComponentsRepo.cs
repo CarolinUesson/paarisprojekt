@@ -2,5 +2,5 @@
 using Domain.Pd;
 
 namespace Domain.Repos;
-public interface IPriceComponentsRepo: IPagedRepo<PriceComponent> {
+public interface IPriceComponentsRepo: IRepo<PriceComponent> {
 }

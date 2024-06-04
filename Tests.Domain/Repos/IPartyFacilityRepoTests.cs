@@ -4,5 +4,5 @@ using Domain.Repos.Parties;
 
 namespace Tests.Domain.Repos;
 [TestClass]
-public class IPartyFacilityRepoTests: InterfaceTests<IPartyFacilityRepo, IPagedRepo<PartyFacility>> {
+public class IPartyFacilityRepoTests: InterfaceTests<IPartyFacilityRepo, IRepo<PartyFacility>> {
 }

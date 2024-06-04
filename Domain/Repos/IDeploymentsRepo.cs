@@ -2,5 +2,5 @@
 using Domain.Pd;
 
 namespace Domain.Repos;
-public interface IDeploymentsRepo: IPagedRepo<Deployment> {
+public interface IDeploymentsRepo: IRepo<Deployment> {
 }

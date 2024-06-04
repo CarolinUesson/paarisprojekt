@@ -10,11 +10,10 @@
         ajax: {
             url: `/${controller}/selectItems`,
             data: function (params) {
-                var query = {
+                return {
                     researchString: params.term,
                     id: selectedId
                 };
-                return query;
             },
             processResults: function (result) {
                 return {

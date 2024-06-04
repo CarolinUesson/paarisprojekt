@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
 namespace Domain.Repos;
-public interface IProductFeaturesRepo : IPagedRepo<ProductFeature>
+public interface IProductFeaturesRepo : IRepo<ProductFeature>
 {
 }
