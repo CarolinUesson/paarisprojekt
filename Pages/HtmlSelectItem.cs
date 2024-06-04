@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualBasic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Encodings.Web;
+using Aids;
 
 namespace Pages;
 public static class HtmlSelectItem
@@ -30,7 +30,7 @@ public static class HtmlSelectItem
     private static IEnumerable<SelectListItem> addDescr<TModel>(SelectList sl)
     {
         var l = sl.ToList();
-        l.Insert(0, new SelectListItem { Text = $"--  {toDescr(typeof(TModel))} --", Value = "" });
+        l.Insert(0, new SelectListItem { Text = $"-- {Constants.Select} {toDescr(typeof(TModel))} --", Value = "" });
         return l;
     }
 
