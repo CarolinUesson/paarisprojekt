@@ -1,12 +1,4 @@
 ﻿@model Facade.Parties.PartyFacilityView
 @using Pages
 
-@* @Html.EditItem(model => model.PartyId) *@
-
-<div class="form-group">
-	<label asp-for="PartyId" class="control-label"></label>
-	<select asp-asp-for="PartyId" class="form-control" asp-items="ViewBag.Parties">
-		<option value="">-- Select Party --</option>
-	</select>
-	<span asp-asp-validation-for="PartyId" class="text-danger"/>
-</div>
+@Html.SelectItem(model => model.PartyId, (SelectList)ViewBag.Parties)
