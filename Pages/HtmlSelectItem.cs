@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text.Encodings.Web;
 using Aids;
 
@@ -12,7 +10,8 @@ public static class HtmlSelectItem
     public static IHtmlContent SelectItem<TModel, TValue>(this IHtmlHelper<TModel> h, Expression<Func<TModel, TValue>> e, SelectList selectList)
     {
         var label = h.LabelFor(e, new { @class = "control-label" });
-        var ed = h.DropDownListFor(e, addDescr<TModel>(selectList), new { @class = "form-control" });
+        var displayName = h.DisplayNameFor(e);
+        var ed = h.DropDownListFor(e, addDescr(selectList, displayName), new { @class = "form-control" });
         var validation = h.ValidationMessageFor(e, string.Empty, new { @class = "text-danger" });
 
         var div = new TagBuilder("div");
@@ -27,16 +26,16 @@ public static class HtmlSelectItem
         return new HtmlString(w.ToString());
     }
 
-    private static IEnumerable<SelectListItem> addDescr<TModel>(SelectList sl)
+    private static IEnumerable<SelectListItem> addDescr(SelectList sl, string displayName)
     {
-        var l = sl.ToList();
-        l.Insert(0, new SelectListItem { Text = $"-- {Constants.Select} {toDescr(typeof(TModel))} --", Value = "" });
+        var l = sl?.ToList() ?? [];
+        l.Insert(0, new SelectListItem { Text = $"-- {Constants.Select} {displayName} --", Value = "" });
         return l;
     }
 
-    internal static object toDescr(Type type)
-    {
-        var a = type?.GetCustomAttribute(typeof(DescriptionAttribute)) as DescriptionAttribute;
-        return a?.Description ?? type?.Name ?? string.Empty;
-    }
+    //internal static object toDescr(Type type)
+    //{
+    //    var a = type?.GetCustomAttribute(typeof(DescriptionAttribute)) as DescriptionAttribute;
+    //    return a?.Description ?? type?.Name ?? string.Empty;
+    //}
 }

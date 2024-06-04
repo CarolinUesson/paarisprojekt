@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Infra.Pd;
+using Infra.Parties;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
@@ -7,5 +8,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(b);
         DepDbContext.initializeTables(b);
+        PartyDbContext.initializeTables(b);
     }
 }

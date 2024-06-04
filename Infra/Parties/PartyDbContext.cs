@@ -18,7 +18,10 @@ public class PartyDbContext(DbContextOptions<PartyDbContext> o) : BaseDbContext<
 
     public static void initializeTables(ModelBuilder b)
     {
-        toTable<PartyData>(b, nameof(Party), partySchema);
-        toTable<PartyFacilityData>(b, nameof(PartyFacility), partySchema);
+        var schema = partySchema;
+        toTable<PartyData>(b, nameof(Party), schema);
+        toTable<FacilityData>(b, nameof(Facility), schema);
+        var pf = toTable<PartyFacilityData>(b, nameof(PartyFacility), schema);
+        pf.HasAlternateKey(nameof(PartyFacilityData.PartyId), nameof(PartyFacilityData.FacilityId));
     }
 }

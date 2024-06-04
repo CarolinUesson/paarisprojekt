@@ -11,4 +11,5 @@ public class PartiesController(IPartyRepo r) :
     protected override string selectItemTextField => nameof(PartyView.Name);
     protected override Party toModel(PartyView v) => 
         new Party(Copy.Members<PartyView, PartyData>(v));
+    
 }

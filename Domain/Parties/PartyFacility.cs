@@ -3,5 +3,6 @@
 namespace Domain.Parties;
 public sealed class PartyFacility(PartyFacilityData? d) : Entity<PartyFacilityData>(d) 
 {
-    public string? PartyId => data.PartyId;
+    public int PartyId => data.PartyId;
+    public int FacilityId => data.FacilityId;
 }
