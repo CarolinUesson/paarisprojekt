@@ -1,5 +1,5 @@
 ﻿
-using Domain.Parties;
+using Domain;
 using Domain.Repos;
 using Domain.Repos.Parties;
 using Infra.Parties;
