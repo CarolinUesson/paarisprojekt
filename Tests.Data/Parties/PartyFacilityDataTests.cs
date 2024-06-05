@@ -7,4 +7,5 @@ namespace Tests.Data.Pd;
 [TestClass]
 public class PartyFacilityDataTests: SealedNewTests<PartyFacilityData, EntityData> {
     [TestMethod] public void PartyIdTest() => propertyTest();
+    [TestMethod] public void FacilityIdTest() => propertyTest();
 }

@@ -4,6 +4,6 @@ using Tests.Aids;
 
 namespace Tests.Data.Pd;
 [TestClass]
-public class FacilityTests: SealedNewTests<FacilityData, EntityData> {
+public class FacilityDataTests: SealedNewTests<FacilityData, EntityData> {
     [TestMethod] public void LocationTest() => propertyTest();
 }
