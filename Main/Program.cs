@@ -1,4 +1,5 @@
 ﻿
+using Domain.Parties;
 using Domain.Repos;
 using Domain.Repos.Parties;
 using Infra.Parties;
@@ -31,6 +32,7 @@ b.Services.AddTransient<IPartyRepo, PartiesRepo>();
 b.Services.AddTransient<IFacilityRepo, FacilitiesRepo>();
 b.Services.AddTransient<IPartyFacilityRepo, PartyFacilitiesRepo>();
 
+GetFromRepo.SetServices(b.Services);
 
 var app = b.Build();
 
